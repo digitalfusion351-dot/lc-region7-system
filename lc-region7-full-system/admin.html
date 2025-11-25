@@ -7,22 +7,29 @@
   <meta name="theme-color" content="#0d47a1" />
 
   <!-- ฟอนต์ & ไอคอน -->
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root {
-      --primary: #1565c0;
+      --primary: #0d47a1;
+      --primary-strong: #1565c0;
       --primary-soft: #e3f2fd;
       --bg: #f3f6fb;
       --sidebar-width: 260px;
       --radius-xl: 18px;
       --radius-lg: 14px;
-      --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.12);
+      --shadow-soft: 0 12px 32px rgba(15, 23, 42, 0.12);
+      --shadow-hard: 0 16px 45px rgba(13, 71, 161, 0.18);
       --text-main: #1f2933;
       --text-soft: #6b7280;
       --accent-green: #1bcfb4;
@@ -38,16 +45,29 @@
 
     body {
       font-family: "Kanit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #e8f1ff, #f8fafc);
+      background: radial-gradient(circle at top left, #eaf2ff, #f9fbff);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 15% 20%, rgba(21, 101, 192, 0.12), transparent 38%),
+                  radial-gradient(circle at 85% 15%, rgba(24, 194, 128, 0.12), transparent 35%),
+                  radial-gradient(circle at 60% 80%, rgba(255, 193, 7, 0.12), transparent 32%);
+      z-index: 0;
+      pointer-events: none;
     }
 
     .app {
       display: flex;
       width: 100%;
       min-height: 100vh;
+      position: relative;
+      z-index: 1;
     }
 
     /* Sidebar */
@@ -64,6 +84,7 @@
       height: 100vh;
       transition: transform 0.25s ease;
       z-index: 20;
+      box-shadow: var(--shadow-hard);
     }
 
     .sidebar.collapsed {
@@ -73,24 +94,26 @@
     .sidebar-header {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       margin-bottom: 12px;
-      padding: 4px 6px;
-      border-radius: 999px;
-      background: rgba(13, 71, 161, 0.35);
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(13, 71, 161, 0.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
     .sidebar-logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #ffffff, #90caf9);
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #b3d8ff);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #0d47a1;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      letter-spacing: 0.5px;
     }
 
     .sidebar-title {
@@ -118,28 +141,31 @@
     }
 
     .nav-item {
-      border-radius: 999px;
-      padding: 9px 10px;
+      border-radius: 12px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
       gap: 10px;
       cursor: pointer;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       color: #e3f2fd;
-      opacity: 0.88;
+      opacity: 0.9;
       transition: background 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+      border: 1px solid transparent;
     }
 
     .nav-item:hover {
       background: rgba(13, 71, 161, 0.55);
       transform: translateY(-1px);
       opacity: 1;
+      border-color: rgba(255,255,255,0.15);
     }
 
     .nav-item.active {
       background: #ffffff;
       color: #0d47a1;
       opacity: 1;
+      box-shadow: 0 10px 24px rgba(13, 71, 161, 0.24);
     }
 
     .nav-item .material-symbols-outlined {
@@ -157,8 +183,8 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 16px 20px;
-      gap: 16px;
+      padding: 18px 22px;
+      gap: 18px;
     }
 
     .topbar {
@@ -166,6 +192,12 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(13, 71, 161, 0.08);
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      padding: 14px 16px;
+      backdrop-filter: blur(6px);
     }
 
     .topbar-left {
@@ -175,9 +207,9 @@
     }
 
     .btn-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       border: none;
       background: #ffffff;
       box-shadow: var(--shadow-soft);
@@ -186,6 +218,12 @@
       justify-content: center;
       cursor: pointer;
       color: var(--primary);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-hard);
     }
 
     .topbar-title {
@@ -214,12 +252,13 @@
     .chip-admin {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px 9px;
+      gap: 6px;
+      padding: 6px 10px;
       border-radius: 999px;
       background: var(--primary-soft);
       color: var(--primary);
-      font-size: 0.75rem;
+      font-size: 0.78rem;
+      border: 1px solid rgba(13, 71, 161, 0.12);
     }
 
     .chip-admin .material-symbols-outlined {
@@ -233,11 +272,138 @@
       gap: 16px;
     }
 
+    .hero {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .hero-card {
+      background: linear-gradient(120deg, rgba(13, 71, 161, 0.9), #1976d2);
+      color: #e3f2fd;
+      border-radius: 18px;
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 42px rgba(13, 71, 161, 0.2);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      top: -60px;
+      right: -60px;
+      filter: blur(2px);
+    }
+
+    .hero-card h1 {
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-card p {
+      color: rgba(227, 242, 253, 0.9);
+      font-size: 0.88rem;
+    }
+
+    .hero-highlights {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      font-size: 0.78rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mini-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(13, 71, 161, 0.08);
+    }
+
+    .mini-card h3 {
+      font-size: 0.92rem;
+      margin-bottom: 6px;
+    }
+
+    .mini-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    @media (max-width: 1100px) {
+      .grid-4 { grid-column: span 6; }
+      .grid-6 { grid-column: span 12; }
+      .grid-8 { grid-column: span 12; }
+      .hero { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      :root { --sidebar-width: 230px; }
+      .sidebar { position: fixed; height: 100%; }
+      .main { padding: 14px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .topbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+      .grid { grid-template-columns: repeat(12, 1fr); }
+      .grid-4, .grid-6, .grid-8 { grid-column: span 12; }
+    }
+
     .card {
       background: #ffffff;
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-soft);
       padding: 16px 18px;
+      border: 1px solid rgba(13, 71, 161, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(21,101,192,0.08), transparent 40%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
     }
 
     .card-header {
@@ -280,9 +446,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-radius: var(--radius-lg);
       background: linear-gradient(135deg, #e3f2fd, #ffffff);
+      border: 1px solid rgba(21, 101, 192, 0.12);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
     }
 
     .summary-info h3 {
@@ -305,15 +473,15 @@
     }
 
     .summary-icon {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #0d47a1;
       background: #ffffff;
-      box-shadow: 0 6px 12px rgba(15, 23, 42, 0.1);
+      box-shadow: 0 6px 12px rgba(15, 23, 42, 0.14);
     }
 
     .summary-icon .material-symbols-outlined {
@@ -343,8 +511,8 @@
     .chart-container {
       position: relative;
       width: 100%;
-      max-width: 460px;
-      margin: 0 auto;
+      max-width: 480px;
+      margin: 2px auto 0;
     }
 
     canvas {
@@ -357,20 +525,25 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       border: 1px solid #e5e7eb;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
     }
 
     thead {
-      background: #f3f4f6;
+      background: linear-gradient(90deg, #eef2ff, #f3f6ff);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      box-shadow: inset 0 -1px 0 #e5e7eb;
     }
 
     th, td {
-      padding: 7px 8px;
+      padding: 9px 10px;
       text-align: left;
       border-bottom: 1px solid #e5e7eb;
       vertical-align: top;
@@ -417,6 +590,23 @@
     .status-badge.rejected {
       background: #fee2e2;
       color: #b91c1c;
+    }
+
+    .alert {
+      border-radius: var(--radius-lg);
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      border: 1px solid #f3f4f6;
+      background: #f8fafc;
+      color: #1f2933;
+      display: none;
+    }
+
+    .alert.error {
+      border-left: 4px solid var(--accent-red);
+      background: #fef2f2;
+      color: #991b1b;
     }
 
     .btn-table {
@@ -609,6 +799,48 @@
 
     <!-- Content -->
     <div class="content">
+      <div class="hero">
+        <div class="hero-card">
+          <h1>จัดการคำร้องภาค 7 ได้อย่างเป็นระบบ</h1>
+          <p>
+            ภาพรวมคำร้องทุกช่องทาง พร้อมเครื่องมืออัปเดตสถานะและทดสอบ API ในที่เดียว
+          </p>
+          <div class="hero-highlights">
+            <div class="hero-chip">
+              <span class="material-symbols-outlined">verified</span>
+              Secure Admin
+            </div>
+            <div class="hero-chip">
+              <span class="material-symbols-outlined">dashboard</span>
+              Real-time Summary
+            </div>
+            <div class="hero-chip">
+              <span class="material-symbols-outlined">dns</span>
+              Apps Script Backend
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <div class="mini-card">
+            <h3>จุดเด่น</h3>
+            <div class="mini-list">
+              <span class="pill"><span class="material-symbols-outlined">insights</span>แผนภูมิภาพรวม</span>
+              <span class="pill"><span class="material-symbols-outlined">fact_check</span>อัปเดตสถานะรวดเร็ว</span>
+              <span class="pill"><span class="material-symbols-outlined">terminal</span>API Playground</span>
+            </div>
+          </div>
+          <div class="mini-card">
+            <h3>แนวทางใช้งาน</h3>
+            <div class="mini-list">
+              <span class="pill">1) ตรวจสอบแดชบอร์ด</span>
+              <span class="pill">2) เลือกคำร้องและอัปเดตสถานะ</span>
+              <span class="pill">3) ทดสอบ API หรืออัปเดตเพิ่มเติม</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Dashboard View -->
       <section class="view active" id="view-dashboard">
         <div class="grid">
@@ -619,6 +851,7 @@
                 <h2>ภาพรวมคำร้องวันนี้</h2>
                 <span id="summary-date"></span>
               </div>
+              <div class="alert error" id="summary-alert"></div>
               <div class="grid" style="grid-template-columns: repeat(12,1fr); gap:8px;">
                 <div class="summary-card" style="grid-column: span 12;">
                   <div class="summary-info">
@@ -712,6 +945,8 @@
               คลิกปุ่ม "อัปเดตสถานะ" ในแถวที่ต้องการ
             </span>
           </div>
+
+          <div class="alert error" id="cases-alert"></div>
 
           <div class="table-container">
             <table>
@@ -812,12 +1047,38 @@
   const sidebar = document.getElementById("sidebar");
   const btnToggleSidebar = document.getElementById("btnToggleSidebar");
   const navItems = document.querySelectorAll(".nav-item");
+  const summaryAlert = document.getElementById("summary-alert");
+  const casesAlert = document.getElementById("cases-alert");
   const views = {
     dashboard: document.getElementById("view-dashboard"),
     cases: document.getElementById("view-cases"),
     "api-test": document.getElementById("view-api-test"),
     members: document.getElementById("view-members")
   };
+
+  function showAlert(el, message) {
+    if (!el) return;
+    if (message) {
+      el.textContent = message;
+      el.style.display = "block";
+    } else {
+      el.textContent = "";
+      el.style.display = "none";
+    }
+  }
+
+  async function fetchJsonStrict(url, options) {
+    const res = await fetch(url, options);
+    const text = await res.text();
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${text.slice(0, 120)}`);
+    }
+    try {
+      return JSON.parse(text);
+    } catch (err) {
+      throw new Error("Invalid JSON response");
+    }
+  }
 
   btnToggleSidebar.addEventListener("click", () => {
     sidebar.classList.toggle("collapsed");
@@ -844,10 +1105,16 @@
 
   async function fetchAdminSummary() {
     const url = `${BASE_API_URL}?action=adminSummary&admin_key=${encodeURIComponent(ADMIN_KEY)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    updateSummaryUI(data);
-    updateCharts(data);
+    showAlert(summaryAlert, "");
+    try {
+      const data = await fetchJsonStrict(url);
+      updateSummaryUI(data);
+      updateCharts(data);
+    } catch (err) {
+      console.error(err);
+      updateSummaryUI({});
+      showAlert(summaryAlert, `ไม่สามารถโหลดข้อมูลสรุปได้: ${err.message}`);
+    }
   }
 
   function updateSummaryUI(summary) {
@@ -955,6 +1222,8 @@
     const module = filterModule.value;
     const status = filterStatus.value;
 
+    showAlert(casesAlert, "");
+
     const params = new URLSearchParams({
       action: "adminListCases",
       module,
@@ -962,8 +1231,15 @@
       admin_key: ADMIN_KEY
     });
 
-    const res = await fetch(`${BASE_API_URL}?${params.toString()}`);
-    const data = await res.json();
+    let data;
+    try {
+      data = await fetchJsonStrict(`${BASE_API_URL}?${params.toString()}`);
+    } catch (err) {
+      console.error(err);
+      tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:10px;color:#9ca3af;">โหลดข้อมูลล้มเหลว: ${escapeHtml(err.message)}</td></tr>`;
+      showAlert(casesAlert, `โหลดรายการไม่สำเร็จ: ${err.message}`);
+      return;
+    }
 
     const items = data.items || [];
     if (!items.length) {
@@ -1030,18 +1306,21 @@
     params.set("status", status.toUpperCase());
     if (note) params.set("admin_note", note);
 
-    const res = await fetch(BASE_API_URL, {
-      method: "POST",
-      body: params
-    });
-    const data = await res.json();
+    try {
+      const data = await fetchJsonStrict(BASE_API_URL, {
+        method: "POST",
+        body: params
+      });
 
-    if (data.ok) {
-      alert("อัปเดตสถานะเรียบร้อยแล้ว");
-      await fetchAdminSummary();
-      await loadCases();
-    } else {
-      alert("เกิดข้อผิดพลาด: " + JSON.stringify(data));
+      if (data.ok) {
+        alert("อัปเดตสถานะเรียบร้อยแล้ว");
+        await fetchAdminSummary();
+        await loadCases();
+      } else {
+        alert("เกิดข้อผิดพลาด: " + JSON.stringify(data));
+      }
+    } catch (err) {
+      alert("เกิดข้อผิดพลาดในการเชื่อมต่อ: " + err.message);
     }
   }
 
