@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ยื่นคำร้อง/ขอความช่วยเหลือ - สภาทนายความภาค 7</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ฟอนต์ไทย -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap">
+  <!-- ไอคอน -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+  <style>
+    :root {
+      --bg: #f3f7ff;
+      --card: #ffffff;
+      --primary: #0f83ff;
+      --primary-soft: #e1efff;
+      --text: #1f2933;
+      --muted: #7b8794;
+      --danger: #e02424;
+      --success: #159947;
+      --radius-lg: 18px;
+      --shadow-lg: 0 14px 40px rgba(15, 131, 255, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Kanit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #e3f2ff 0, #f3f7ff 60%, #edf1f7 100%);
+      color: var(--text);
+    }
+
+    /* ========== TOPBAR ========== */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(244,248,255,0.95));
+      border-bottom: 1px solid rgba(209,221,245,0.8);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #4fadff 0, #0f83ff 55%, #0052cc 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 15px rgba(15,131,255,0.4);
+    }
+
+    .app-title-main {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .app-title-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ========== LAYOUT ========== */
+    main {
+      padding: 16px;
+      max-width: 960px;
+      margin: 0 auto 32px auto;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-title .material-icons {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .hero-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.7rem;
+    }
+    .pill {
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: rgba(15,131,255,0.06);
+      color: #1b4b91;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 18px 16px 16px;
+      margin-top: 12px;
+    }
+
+    /* ========== TABS ========== */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background: #e4edff;
+      padding: 4px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      padding: 7px 6px;
+      font-size: 0.8rem;
+      background: transparent;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .tab-btn .material-icons {
+      font-size: 1rem;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 4px 14px rgba(15,131,255,0.2);
+    }
+
+    .tab-panel {
+      display: none;
+      margin-top: 6px;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .section-title .badge {
+      font-size: 0.7rem;
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: #e5f0ff;
+      color: #1b4b91;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    /* ========== FORM ========== */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 8px;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .form-label .material-icons {
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px 9px;
+      border-radius: 10px;
+      border: 1px solid #ced7ea;
+      font-size: 0.85rem;
+      outline: none;
+      transition: box-shadow 0.15s, border-color 0.15s, transform 0.05s;
+      background: #fdfdff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(15,131,255,0.16);
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .small-text {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* input file */
+    input[type="file"] {
+      padding: 6px 8px;
+      background: #f7f9ff;
+      border-radius: 10px;
+      border: 1px dashed #cbd5f0;
+      font-size: 0.8rem;
+    }
+
+    /* ========== BUTTONS ========== */
+    .btn-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 9px 18px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0f83ff, #0066dd);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(15,131,255,0.35);
+    }
+
+    .btn-secondary {
+      background: #eef2ff;
+      color: #233659;
+    }
+
+    .btn .material-icons {
+      font-size: 1.1rem;
+    }
+
+    .msg {
+      font-size: 0.78rem;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .msg.error {
+      color: var(--danger);
+    }
+    .msg.success {
+      color: var(--success);
+    }
+
+    /* ========== PROGRESS BAR (ติดตามสถานะ) ========== */
+    .progress-line {
+      position: relative;
+      margin-top: 10px;
+      padding: 6px 0 0 0;
+    }
+    .progress-track {
+      height: 4px;
+      border-radius: 999px;
+      background: #dde6f5;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #1cc58f, #0f83ff);
+      transition: width 0.3s;
+    }
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* ========== PDPA BOX (ข้อความบน / ติ๊กด้านล่าง + ยอมรับ) ========== */
+    .pdpa-box {
+      background: #f6f9ff;
+      border: 1px solid #d3e0ff;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    .pdpa-title {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: #1f3fa3;
+      font-weight: 600;
+    }
+
+    .pdpa-title .material-icons {
+      font-size: 1.2rem;
+      margin-right: 6px;
+      color: #1f3fa3;
+    }
+
+    .pdpa-text {
+      font-size: 0.8rem;
+      color: #444;
+      line-height: 1.5;
+      margin: 0 0 10px;
+    }
+
+    .pdpa-accept {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #111827;
+    }
+
+    .pdpa-accept input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== TOP BAR ========== -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-circle">LC7</div>
+      <div>
+        <div class="app-title-main">สภาทนายความภาค 7</div>
+        <div class="app-title-sub">ระบบยื่นคำร้อง & ขอความช่วยเหลือประชาชน</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="material-icons" style="font-size:1rem;">phone_in_talk</span>
+      <span>ศูนย์บริการประชาชน</span>
+    </div>
+  </header>
+
+  <!-- ========== MAIN ========== -->
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-title">
+        <span class="material-icons">support</span>
+        <span>ขอความช่วยเหลือทางกฎหมาย ผ่านระบบออนไลน์</span>
+      </div>
+      <div class="hero-subtitle">
+        กรอกข้อมูลให้ครบถ้วน เพื่อลดเวลาการสอบถามเพิ่มเติม และช่วยให้ทนายความสามารถช่วยเหลือคุณได้เร็วขึ้น
+      </div>
+      <div class="pill-row">
+        <div class="pill">รองรับมือถือเต็มรูปแบบ</div>
+        <div class="pill">แนบไฟล์หลักฐานได้</div>
+        <div class="pill">ตรวจสอบสถานะได้ด้วยตนเอง</div>
+      </div>
+    </section>
+
+    <!-- CARD หลัก -->
+    <section class="card">
+      <!-- แถบสลับ tab -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-new">
+          <span class="material-icons">note_add</span>
+          <span>ยื่นคำร้องใหม่</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-track">
+          <span class="material-icons">track_changes</span>
+          <span>ติดตามสถานะคำร้อง</span>
+        </button>
+      </div>
+
+      <!-- TAB: ฟอร์มยื่นคำร้อง -->
+      <div id="tab-new" class="tab-panel active">
+        <div class="section-title">
+          <span class="material-icons">assignment</span>
+          <span>แบบฟอร์มยื่นคำร้อง / ขอความช่วยเหลือ</span>
+          <span class="badge">ประชาชนทั่วไป</span>
+        </div>
+        <div class="hint">
+          ข้อมูลของคุณจะถูกเก็บเป็นความลับ และใช้เพื่อการติดต่อกลับและดำเนินการทางกฎหมายเท่านั้น
+        </div>
+
+        <form id="citizenForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <div class="form-label">
+                <span class="material-icons">person</span>
+                <span>ชื่อ–สกุล *</span>
+              </div>
+              <input name="full_name" required placeholder="เช่น นายสมชาย ใจดี" />
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span class="material-icons">phone_iphone</span>
+                <span>เบอร์โทรศัพท์ *</span>
+              </div>
+              <input name="phone" required placeholder="เช่น 08X-XXX-XXXX" />
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span class="material-icons">chat</span>
+                <span>LINE ID *</span>
+              </div>
+              <input name="line_id" required placeholder="เช่น lineid1234" />
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span class="material-icons">email</span>
+                <span>อีเมล *</span>
+              </div>
+              <input name="email" type="email" required placeholder="สำหรับใช้รับเลขอ้างอิงและการแจ้งเตือน" />
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span class="material-icons">gavel</span>
+                <span>ประเภทเรื่อง *</span>
+              </div>
+              <select name="case_type" required>
+                <option value="">-- เลือกประเภทเรื่อง --</option>
+                <option value="civil">คดีแพ่ง / หนี้ / สัญญา</option>
+                <option value="criminal">คดีอาญา / ถูกกล่าวหา</option>
+                <option value="family">คดีครอบครัว / มรดก</option>
+                <option value="labor">คดีแรงงาน</option>
+                <option value="administrative">คดีปกครอง / หน่วยงานรัฐ</option>
+                <option value="other">อื่น ๆ</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span class="material-icons">description</span>
+              <span>รายละเอียดเหตุการณ์ *</span>
+            </div>
+            <textarea name="case_detail" rows="5" required
+              placeholder="กรุณาเล่าเหตุการณ์โดยสรุปว่าเกิดอะไรขึ้น ที่ไหน เมื่อไร และคุณต้องการให้สภาทนายช่วยเหลืออย่างไร"></textarea>
+            <div class="small-text">* หากมีหมายเรียก เอกสารแจ้งความ หรือสัญญา แนะนำให้แนบไฟล์ด้านล่างร่วมด้วย</div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span class="material-icons">attach_file</span>
+              <span>แนบไฟล์หลักฐาน (ถ้ามี)</span>
+            </div>
+            <input type="file" name="attachment" multiple />
+            <div class="small-text">รองรับไฟล์รูปภาพและเอกสาร ขนาดรวมไม่ควรใหญ่เกิน ~10 MB ต่อครั้ง</div>
+          </div>
+
+          <!-- PDPA กล่องใหม่ -->
+          <div class="form-group">
+            <div class="pdpa-box">
+              <div class="pdpa-title">
+                <span class="material-icons">verified_user</span>
+                <span>ยินยอมการเก็บและใช้ข้อมูลส่วนบุคคล (PDPA)</span>
+              </div>
+              <p class="pdpa-text">
+                ข้าพเจ้ายินยอมให้สภาทนายความภาค 7 เก็บรวบรวม ใช้ และประมวลผลข้อมูลส่วนบุคคลของข้าพเจ้า
+                เพื่อประโยชน์ในการให้คำปรึกษาและดำเนินการทางกฎหมาย ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล (PDPA)
+              </p>
+              <label class="pdpa-accept">
+                <input type="checkbox" name="pdpa" required />
+                <span>ยอมรับ</span>
+              </label>
+            </div>
+            <div class="small-text">
+              * หากไม่ยินยอม ระบบจะไม่สามารถรับคำร้องผ่านช่องทางออนไลน์ได้
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="reset" class="btn btn-secondary">
+              <span class="material-icons">refresh</span>
+              ล้างข้อมูล
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <span class="material-icons">send</span>
+              ส่งคำร้อง
+            </button>
+          </div>
+
+          <div id="formMsg" class="msg"></div>
+        </form>
+      </div>
+
+      <!-- TAB: ติดตามสถานะ -->
+      <div id="tab-track" class="tab-panel">
+        <div class="section-title">
+          <span class="material-icons">query_stats</span>
+          <span>ตรวจสอบความคืบหน้าคำร้อง</span>
+          <span class="badge">ใช้เลขอ้างอิง</span>
+        </div>
+        <div class="hint">
+          ใช้เลขอ้างอิงและอีเมลที่ได้รับจากระบบหลังยื่นคำร้อง เพื่อดูสถานะล่าสุดของเรื่องของคุณ
+        </div>
+
+        <form id="trackForm">
+          <div class="form-group">
+            <div class="form-label">
+              <span class="material-icons">confirmation_number</span>
+              <span>เลขอ้างอิง *</span>
+            </div>
+            <input name="reference_no" required placeholder="เช่น C-20251124-0001" />
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span class="material-icons">alternate_email</span>
+              <span>อีเมลที่ใช้ยื่นคำร้อง *</span>
+            </div>
+            <input name="email" type="email" required placeholder="กรอกอีเมลเดิมให้ตรงกันเพื่อยืนยันตัวตน" />
+          </div>
+
+          <div class="btn-row">
+            <button type="submit" class="btn btn-primary">
+              <span class="material-icons">search</span>
+              ตรวจสอบสถานะ
+            </button>
+          </div>
+
+          <div id="trackMsg" class="msg"></div>
+
+          <div class="progress-line" id="progressContainer" style="display:none;">
+            <div class="progress-track">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-steps">
+              <span>รับเรื่องแล้ว</span>
+              <span>กำลังดำเนินการ</span>
+              <span>ปิดเรื่อง / สรุปผล</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ====== URL API Google Apps Script (ของคุณ) ======
+    const API_BASE = "https://script.google.com/macros/s/AKfycbzwC16nHF1P950tsITwRc8e2EfKmCYMN-QHekY2D0nbn6bwSev6HfnnsB2VUGTtD7yrAA/exec";
+
+    // ====== สลับแท็บ ======
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // ====== ฟอร์มยื่นคำร้อง ======
+    const citizenForm = document.getElementById('citizenForm');
+    const formMsg = document.getElementById('formMsg');
+
+    citizenForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!citizenForm.pdpa.checked) {
+        formMsg.textContent = 'กรุณายอมรับเงื่อนไขการเก็บและใช้ข้อมูลส่วนบุคคล (PDPA) ก่อนส่งคำร้อง';
+        formMsg.className = 'msg error';
+        return;
+      }
+
+      formMsg.textContent = 'กำลังส่งคำร้อง...';
+      formMsg.className = 'msg';
+
+      const formData = new FormData(citizenForm);
+      formData.append('action', 'createCitizenCase');
+
+      try {
+        const res = await fetch(API_BASE, {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+        if (data.error) {
+          if (data.error === 'pdpa_not_accepted') {
+            formMsg.textContent = 'ต้องยอมรับ PDPA ก่อน ระบบจึงจะสามารถรับคำร้องได้';
+          } else {
+            formMsg.textContent = '❌ เกิดข้อผิดพลาด: ' + data.error;
+          }
+          formMsg.className = 'msg error';
+          return;
+        }
+
+        formMsg.innerHTML =
+          '✅ ส่งคำร้องสำเร็จแล้ว<br>เลขอ้างอิงของคุณคือ: <b>' + data.reference_no +
+          '</b><br>กรุณาเก็บเลขนี้ไว้เพื่อตรวจสอบสถานะในภายหลัง';
+        formMsg.className = 'msg success';
+
+        citizenForm.reset();
+
+      } catch (err) {
+        console.error(err);
+        formMsg.textContent = '❌ ไม่สามารถส่งคำร้องได้ กรุณาลองใหม่อีกครั้ง';
+        formMsg.className = 'msg error';
+      }
+    });
+
+    // ====== ฟอร์มติดตามสถานะ ======
+    const trackForm = document.getElementById('trackForm');
+    const trackMsg = document.getElementById('trackMsg');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+
+    function statusToProgress(status) {
+      switch (status) {
+        case 'RECEIVED':    return 25;
+        case 'IN_PROGRESS': return 60;
+        case 'WAITING':     return 40;
+        case 'CLOSED':      return 100;
+        case 'REJECTED':    return 100;
+        default:            return 10;
+      }
+    }
+
+    trackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      trackMsg.textContent = 'กำลังตรวจสอบสถานะ...';
+      trackMsg.className = 'msg';
+      progressContainer.style.display = 'none';
+      progressBar.style.width = '0';
+
+      const params = new URLSearchParams({
+        action: 'getCitizenStatus',
+        reference_no: trackForm.reference_no.value.trim(),
+        email: trackForm.email.value.trim()
+      });
+
+      try {
+        const res = await fetch(API_BASE + '?' + params.toString());
+        const data = await res.json();
+
+        if (data.error) {
+          trackMsg.textContent = '❌ ไม่พบข้อมูล หรือตรวจสอบว่าเลขอ้างอิง/อีเมลถูกต้องหรือไม่';
+          trackMsg.className = 'msg error';
+          return;
+        }
+
+        trackMsg.innerHTML =
+          '📌 เลขอ้างอิง: <b>' + data.reference_no + '</b><br>' +
+          'สถานะปัจจุบัน: <b>' + data.status_th + '</b><br>' +
+          'อัปเดตล่าสุด: ' + (data.last_update || '-');
+        trackMsg.className = 'msg success';
+
+        const percent = statusToProgress(data.status);
+        progressBar.style.width = percent + '%';
+        progressContainer.style.display = 'block';
+
+      } catch (err) {
+        console.error(err);
+        trackMsg.textContent = '❌ ไม่สามารถตรวจสอบสถานะได้ กรุณาลองใหม่อีกครั้ง';
+        trackMsg.className = 'msg error';
+      }
+    });
+  </script>
+</body>
+</html>
